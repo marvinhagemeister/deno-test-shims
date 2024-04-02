@@ -13,11 +13,13 @@ globalThis.Buffer = Buffer;
 // @ts-ignore node shim, not entirely accurate but works well enough for
 // bare specifiers
 globalThis.require = createRequire(import.meta.url);
-// @ts-ignore shim for vitest
-globalThis.vi = {
-  fn,
-};
 
 export const after = afterAll;
 export const before = beforeAll;
 export const test = it;
+export const vi = {
+  fn,
+};
+
+// @ts-ignore shim for vitest
+globalThis.vi = vi;
