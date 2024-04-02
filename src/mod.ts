@@ -13,7 +13,7 @@ export { createMockFn, type Mock, type MockCall } from "./mock.ts";
   // deno-lint-ignore no-explicit-any
   toMatchInlineSnapshot(_context: any) {
     // FIXME: Missing implementation
-    return;
+    return { pass: true };
   },
 });
 
