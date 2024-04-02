@@ -1,0 +1,13 @@
+{
+  "name": "@marvinh/test-shims",
+  "version": "0.0.1",
+  "exports": {
+    ".": "./src/mod.ts"
+  },
+  "imports": {
+    "@std/testing": "jsr:@std/testing@^0.221.0"
+  },
+  "publish": {
+    "exclude": [".vscode/"]
+  }
+}
