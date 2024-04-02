@@ -1,7 +1,7 @@
 import process from "node:process";
 import { Buffer } from "node:buffer";
 import { createRequire } from "node:module";
-import { afterAll, beforeAll } from "@std/testing/bdd";
+import { afterAll, beforeAll, it } from "@std/testing/bdd";
 export * from "@std/testing/bdd";
 
 // @ts-ignore node shim
@@ -14,3 +14,4 @@ globalThis.require = createRequire(import.meta.url);
 
 export const after = afterAll;
 export const before = beforeAll;
+export const test = it;
