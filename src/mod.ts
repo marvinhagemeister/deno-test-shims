@@ -7,8 +7,11 @@ export * from "@std/testing/bdd";
 export { createMockFn, type Mock, type MockCall } from "./mock.ts";
 
 // FIXME: Add this to TS types
-expect.extend({
-  toMatchInlineSnapshot(_context) {
+// FIXME: Slow type bug?
+// deno-lint-ignore no-explicit-any
+(expect as any).extend({
+  // deno-lint-ignore no-explicit-any
+  toMatchInlineSnapshot(_context: any) {
     // FIXME: Missing implementation
     return;
   },
