@@ -12,7 +12,8 @@ export interface MockCall {
 
 export interface Mock {
   mock: {
-    calls: MockCall[];
+    // deno-lint-ignore no-explicit-any
+    calls: any[][];
   };
   mockReturnValueOnce(value: unknown): this;
   mockReturnValue(value: unknown): this;
@@ -82,7 +83,7 @@ export function createMockFn<T extends AnyFn>(
   const out = mockInner as unknown as Mock & T;
   out.mock = {
     get calls() {
-      return state.calls;
+      return state.calls.map((cl) => cl.args);
     },
   };
   out.mockReturnValueOnce = (value: unknown) => {
@@ -138,7 +139,9 @@ export function createMockFn<T extends AnyFn>(
   };
   Object.defineProperty(out, MOCK_SYMBOL, {
     get() {
-      return out.mock;
+      return {
+        calls: state.calls,
+      };
     },
   });
 

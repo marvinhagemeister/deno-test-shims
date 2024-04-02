@@ -5,7 +5,7 @@ Deno.test("mock - calls", () => {
   const add = (a: number, b: number) => a + b;
   const spy = createMockFn(add);
   expect(spy(1, 2)).toEqual(3);
-  expect(spy.mock.calls).toEqual([{ args: [1, 2], return: 3 }]);
+  expect(spy.mock.calls).toEqual([[1, 2]]);
 });
 
 Deno.test("mock - mockClear", () => {
@@ -20,7 +20,7 @@ Deno.test("mock - mockClear", () => {
 Deno.test("mock - without fn", () => {
   const spy = createMockFn();
   expect(spy(1, 2)).toEqual(undefined);
-  expect(spy.mock.calls).toEqual([{ args: [1, 2], return: undefined }]);
+  expect(spy.mock.calls).toEqual([[1, 2]]);
 });
 
 Deno.test("mock - mockReturnValueOnce", () => {
