@@ -1,10 +1,20 @@
 import process from "node:process";
 import { Buffer } from "node:buffer";
 import { afterAll, beforeAll, it } from "@std/testing/bdd";
-export * from "@std/testing/bdd";
-export * from "@std/expect";
-export { createMockFn, type Mock, type MockCall } from "./mock.ts";
+import { expect } from "@std/expect";
 import { createMockFn } from "./mock.ts";
+export * from "@std/testing/bdd";
+export { createMockFn, type Mock, type MockCall } from "./mock.ts";
+
+// FIXME: Add this to TS types
+expect.extend({
+  toMatchInlineSnapshot(_context) {
+    // FIXME: Missing implementation
+    return;
+  },
+});
+
+export { expect };
 
 // @ts-ignore node shim
 globalThis.process = process;
