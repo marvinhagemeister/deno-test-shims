@@ -3,6 +3,7 @@ import { Buffer } from "node:buffer";
 import { createRequire } from "node:module";
 import { afterAll, beforeAll, it } from "@std/testing/bdd";
 export * from "@std/testing/bdd";
+export * from "@std/expect";
 
 // @ts-ignore node shim
 globalThis.process = process;
