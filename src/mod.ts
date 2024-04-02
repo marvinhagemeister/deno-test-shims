@@ -3,7 +3,7 @@ import { Buffer } from "node:buffer";
 import { afterAll, beforeAll, it } from "@std/testing/bdd";
 export * from "@std/testing/bdd";
 export * from "@std/expect";
-export { createMockFn, type Mock } from "./mock.ts";
+export { createMockFn, type Mock, type MockCall } from "./mock.ts";
 import { createMockFn } from "./mock.ts";
 
 // @ts-ignore node shim

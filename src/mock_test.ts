@@ -5,7 +5,7 @@ Deno.test("mock - calls", () => {
   const add = (a: number, b: number) => a + b;
   const spy = createMockFn(add);
   expect(spy(1, 2)).toEqual(3);
-  expect(spy.mock.calls).toEqual([[1, 2]]);
+  expect(spy.mock.calls).toEqual([{ args: [1, 2], return: 3 }]);
 });
 
 Deno.test("mock - mockClear", () => {
@@ -20,7 +20,7 @@ Deno.test("mock - mockClear", () => {
 Deno.test("mock - without fn", () => {
   const spy = createMockFn();
   expect(spy(1, 2)).toEqual(undefined);
-  expect(spy.mock.calls).toEqual([[1, 2]]);
+  expect(spy.mock.calls).toEqual([{ args: [1, 2], return: undefined }]);
 });
 
 Deno.test("mock - mockReturnValueOnce", () => {
@@ -111,4 +111,11 @@ Deno.test("mock - mockRestore", () => {
 Deno.test("mock - mockReturnThis", () => {
   const spy = createMockFn().mockReturnThis();
   expect(spy.call(1)).toEqual(1);
+});
+
+Deno.test("mock - expect calls", () => {
+  const spy = createMockFn();
+  spy(1, 2);
+  expect(spy).toHaveBeenCalledTimes(1);
+  expect(spy).toHaveBeenCalledWith(1, 2);
 });

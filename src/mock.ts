@@ -1,10 +1,18 @@
+const MOCK_SYMBOL = Symbol.for("@MOCK");
+
 // deno-lint-ignore no-explicit-any
 export type AnyFn = (...args: any[]) => any;
 
+export interface MockCall {
+  // deno-lint-ignore no-explicit-any
+  args: any[];
+  // deno-lint-ignore no-explicit-any
+  return: any;
+}
+
 export interface Mock {
   mock: {
-    // deno-lint-ignore no-explicit-any
-    calls: any[][];
+    calls: MockCall[];
   };
   mockReturnValueOnce(value: unknown): this;
   mockReturnValue(value: unknown): this;
@@ -16,11 +24,13 @@ export interface Mock {
   mockReset(): (() => undefined) & Mock;
   mockRestore(): this;
   mockReturnThis(): this;
+  [MOCK_SYMBOL]: {
+    calls: MockCall[];
+  };
 }
 
 interface MockState<T> {
-  // deno-lint-ignore no-explicit-any
-  calls: any[][];
+  calls: MockCall[];
   // deno-lint-ignore no-explicit-any
   values: { once: boolean; async: boolean; value: any }[];
   fns: { once: boolean; fn: T }[];
@@ -37,7 +47,8 @@ export function createMockFn<T extends AnyFn>(
 
   // deno-lint-ignore no-explicit-any
   function mockInner(this: any, ...args: any[]) {
-    state.calls.push(args);
+    const callInfo = { args, return: undefined };
+    state.calls.push(callInfo);
 
     if (state.values.length > 0) {
       const first = state.values[0];
@@ -47,10 +58,11 @@ export function createMockFn<T extends AnyFn>(
       }
 
       if (first.async) {
-        return Promise.reject(first.value);
+        // deno-lint-ignore no-explicit-any
+        return (callInfo.return as any) = Promise.reject(first.value);
       }
 
-      return first.value;
+      return callInfo.return = first.value;
     }
 
     if (state.fns.length > 0) {
@@ -59,11 +71,11 @@ export function createMockFn<T extends AnyFn>(
         state.fns.shift();
       }
 
-      return impl.fn.apply(this, args);
+      return callInfo.return = impl.fn.apply(this, args);
     }
 
     if (fn !== undefined) {
-      return fn.apply(this, args);
+      return callInfo.return = fn.apply(this, args);
     }
   }
 
@@ -124,6 +136,11 @@ export function createMockFn<T extends AnyFn>(
     });
     return out;
   };
+  Object.defineProperty(out, MOCK_SYMBOL, {
+    get() {
+      return out.mock;
+    },
+  });
 
   return out;
 }
