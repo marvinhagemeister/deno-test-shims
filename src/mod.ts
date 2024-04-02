@@ -25,6 +25,7 @@ export interface Mock {
   mock: {
     calls: unknown[][];
   };
+  mockClear(): void;
 }
 
 // deno-lint-ignore no-explicit-any
