@@ -1,7 +1,6 @@
 import process from "node:process";
 import { Buffer } from "node:buffer";
 import { afterAll, beforeAll, it } from "@std/testing/bdd";
-import { fn } from "@std/expect";
 export * from "@std/testing/bdd";
 export * from "@std/expect";
 
