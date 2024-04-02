@@ -9,6 +9,8 @@ export * from "@std/expect";
 globalThis.process = process;
 // @ts-ignore node shim
 globalThis.Buffer = Buffer;
+// @ts-ignore node shim
+globalThis.global = globalThis;
 
 export const after = afterAll;
 export const before = beforeAll;
