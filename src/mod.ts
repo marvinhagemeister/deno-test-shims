@@ -16,8 +16,34 @@ export const after = afterAll;
 export const before = beforeAll;
 export const test = it;
 export const vi = {
-  fn,
+  fn: mockFn,
 };
 
 // @ts-ignore shim for vitest
 globalThis.vi = vi;
+
+export interface Mock {
+  mock: {
+    calls: unknown[][];
+  };
+}
+
+// deno-lint-ignore no-explicit-any
+function mockFn<T extends (...args: any[]) => any>(fn?: T): T & Mock {
+  const state = {
+    // deno-lint-ignore no-explicit-any
+    calls: [] as any[],
+  };
+
+  // deno-lint-ignore no-explicit-any
+  function mockInner(...args: any[]) {
+    state.calls.push(args);
+    return fn?.apply(null, args);
+  }
+  mockInner.mockClear = () => {
+    state.calls = [];
+  };
+  mockInner.mock = state;
+
+  return mockInner as unknown as T & Mock;
+}
